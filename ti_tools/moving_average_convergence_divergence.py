@@ -18,12 +18,12 @@ def moving_average_convergence_divergence(data, short_period=12, long_period=26)
     macd = ema(data, short_period) - ema(data, long_period)
     return macd
 
-def signal_line(data, period=9):
+def signal_line(macd, period=9):
     """
     Signal Line: 9-day EMA of MACD
     """
-    catch_errors.check_for_period_error(data, period)
-    signal = ema(data, period)
+    catch_errors.check_for_period_error(macd, period)
+    signal = ema(macd, period)
     return signal
 
 def macd_histogram(macd, signal):
