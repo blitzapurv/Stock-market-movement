@@ -7,6 +7,21 @@ from ti_tools.simple_moving_average import (
     )
 from six.moves import range
 
+# %K = (Current Close - Lowest Low)/(Highest High - Lowest Low) * 100
+# %D = 3-day SMA of %K
+
+# Fast Stochastic Oscillator:
+## Fast %K = %K basic calculation
+## Fast %D = 3-period SMA of Fast %K
+
+# Slow Stochastic Oscillator:
+## Slow %K = Fast %K smoothed with 3-period SMA
+## Slow %D = 3-period SMA of Slow %K
+
+# Full Stochastic Oscillator:   (customizable version of slow stochastic oscillator)
+## Full %K = Fast %K smoothed with X-period SMA
+## Full %D = X-period SMA of Full %K
+## Deafaut: (14,3,3)
 
 def percent_k(data, period):
     """
@@ -24,13 +39,12 @@ def percent_k(data, period):
     return percent_k
 
 
-def percent_d(data, period):
+def percent_d(p_k, period=3):
     """
     %D.
 
     Formula:
     %D = SMA(%K, 3)
     """
-    p_k = percent_k(data, period)
-    percent_d = sma(p_k, 3)
+    percent_d = sma(p_k, period)
     return percent_d

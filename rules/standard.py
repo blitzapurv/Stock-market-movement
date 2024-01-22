@@ -10,8 +10,7 @@ from ti_tools.moving_average_convergence_divergence import (moving_average_conve
 
 
 class SmaCross(Strategy):
-    # Define the two MA lags as *class variables*
-    # for later optimization
+    # Define the two MA lags for later optimization
     n1 = 10
     n2 = 25
     
@@ -40,9 +39,8 @@ class RsiOscillator(Strategy):
     lower_bound = 30
     rsi_window = 14
 
-    # Do as much initial computation as possible
     def init(self):
-        self.rsi = self.I(ta.rsi, pd.Series(self.data.Close), length=self.rsi_window)
+        self.rsi = self.I(rsi, pd.Series(self.data.Close), period=self.rsi_window)
 
     # sell everything if rsi greater than upper bound and buy if it's lower than lower bound
     def next(self):
@@ -59,7 +57,7 @@ class MACDcross(Strategy):
     slow_length = 26
     signal_length = 9
     _props = f"{fast_length}_{slow_length}_{signal_length}"
-    # Do as much initial computation as possible
+
     def init(self):
         print(self._props)
         self.macd = self.I(moving_average_convergence_divergence, self.data.Close, short_period=self.fast_length, long_period=self.slow_length)
